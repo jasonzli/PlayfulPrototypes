@@ -63,8 +63,10 @@ namespace OvenFresh
         {
             if (isAnimating) return;
 
+            //set the guard
             isAnimating = true;
-
+               
+            //Use Coroutine for WEBGL
             StartCoroutine(TravelTo(targetPosition, moveInTime));
 
         }
@@ -91,7 +93,7 @@ namespace OvenFresh
 
             transform.position = targetPosition;
 
-            isAnimating = false;
+            isAnimating = false; //open guard
         }
     }
 }

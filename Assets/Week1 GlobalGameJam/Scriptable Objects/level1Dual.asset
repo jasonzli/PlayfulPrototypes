@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 132ac0b0596640ec84197ce59aa3a32f, type: 3}
-  m_Name: Default Mover
+  m_Script: {fileID: 11500000, guid: 5e45fe42573b4956b4761a8ad2f0d055, type: 3}
+  m_Name: level1Dual
   m_EditorClassIdentifier: 
-  color: {r: 0, g: 0.7924528, b: 0.7492306, a: 0}
-  animationCurve: {fileID: 11400000, guid: 3ce69934589549741ba4e5fa669c3f66, type: 2}
+  configXY: {fileID: 0}
+  configZY: {fileID: 0}

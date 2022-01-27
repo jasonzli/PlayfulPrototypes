@@ -23,7 +23,7 @@ namespace OvenFresh
             SetupBoard(config);
         }
 
-        void SetupBoard(BoardConfiguration config)
+        public void SetupBoard(BoardConfiguration config)
         {
             width = config.width;
             height = config.height;
@@ -49,11 +49,14 @@ namespace OvenFresh
                     
                     //create tile
                     var tileObj = Instantiate(tilePrefab, Vector3.zero, Quaternion.identity, transform);
-                    tileObj.transform.position = new Vector3(i, j,0);
+                    tileObj.transform.localPosition = new Vector3(i, j,0);
+                    tileObj.transform.localRotation = Quaternion.identity;
                     var tileComponent = tileObj.GetComponent<Tile>();
-
+                    
+                    //sample the texture
+                    
                     //create a wall
-                    if (i == 0 || j == 0 || i == xDimension - 1 || j == yDimension - 1)
+                    if (i == 0 || j == 0 || i == xDimension - 1 || j == yDimension - 1 || UnityEngine.Random.Range(0f,1f) < .3f)
                     {
                         tileComponent.Init(config.wallTileType,i,j,0);
                         tileObj.name = $"Wall {i},{j},0";
@@ -79,7 +82,7 @@ namespace OvenFresh
         Mover CreateMover(int xPos, int yPos, int zPos)
         {
             var mover = Instantiate(moverPrefab, Vector3.zero, Quaternion.identity);
-            mover.transform.position = new Vector3(xPos, yPos, zPos);
+            mover.transform.position = transform.TransformPoint(new Vector3(xPos, yPos, zPos));
             mover.name = "Mover";
             mover.GetComponent<Mover>().Init(config.moverType,xPos,yPos,zPos);
             return mover.GetComponent<Mover>();
