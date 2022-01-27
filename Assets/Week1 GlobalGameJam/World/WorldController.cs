@@ -57,9 +57,7 @@ namespace OvenFresh
             
             var elapsedTime = 0f;
             Vector3 currentPosition = _cam.transform.position;
-            Vector3 targetDirection = targetPosition - currentPosition;
-            Vector3 newDirection = Vector3.RotateTowards(_cam.transform.forward, targetDirection, 3.14f, 0f);
-
+            
             while (elapsedTime < animationTime)
             {
                 var t = elapsedTime / animationTime;
@@ -67,21 +65,14 @@ namespace OvenFresh
                 t = movementCurve.Evaluate(t);
 
                 _cam.transform.position = Vector3.Slerp(currentPosition, targetPosition, t);
-
-                targetDirection = lookAt - _cam.transform.position;
-                newDirection = Vector3.RotateTowards(_cam.transform.forward, targetDirection, 3.14f, 0f);
-
-                _cam.transform.rotation = Quaternion.LookRotation(newDirection);
+                _cam.transform.LookAt(lookAt);
                 
                 await Task.Yield();
                 elapsedTime += Time.deltaTime;
             }
 
             _cam.transform.position = targetPosition;
-            targetDirection = targetPosition - _cam.transform.position;
-            newDirection = Vector3.RotateTowards(_cam.transform.forward, targetDirection, 3.14f, 0f);
-
-            _cam.transform.rotation = Quaternion.LookRotation(newDirection);
+            _cam.transform.LookAt(lookAt);
 
             _moving = false;
         }

@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.InputSystem;
+
 /*
 this Mover class is the character class that moves around
 It should be able to slide along the board.
@@ -17,6 +19,9 @@ namespace OvenFresh
         public MoverType type;
         private MeshRenderer _renderer;
         private MaterialPropertyBlock _materialPropertyBlock;
+
+        private bool isAnimating;
+        
         
         void Awake()
         {    
@@ -38,7 +43,7 @@ namespace OvenFresh
         
        
         //Move from currently location to the target
-        void Slide(int xTarget, int yTarget, int zTarget){
+        async void SlideToInTime(int xTarget, int yTarget, int zTarget){
             
         }
         
@@ -51,6 +56,42 @@ namespace OvenFresh
         //Transition Color
         public async Task TransitionColor(Color color){
             
+        }
+        
+        //Movement
+        public void MoveToPosition(Vector3 targetPosition, float moveInTime = .5f)
+        {
+            if (isAnimating) return;
+
+            isAnimating = true;
+
+            StartCoroutine(TravelTo(targetPosition, moveInTime));
+
+        }
+
+        public IEnumerator TravelTo(Vector3 targetPosition, float moveInTime = .5f)
+        {
+            var origin = transform.position;
+            var elapsedTime = 0f;
+            var t = 0f;
+            while (elapsedTime < moveInTime)
+            {
+                t = Mathf.Clamp(elapsedTime / moveInTime, 0f, 1f);
+
+                if (type.animationCurve)
+                {
+                    t = type.animationCurve.Evaluate(t);
+                }
+                
+                //move
+                transform.position = Vector3.Lerp(origin, targetPosition, t);
+                elapsedTime += Time.deltaTime;
+                yield return null;
+            }
+
+            transform.position = targetPosition;
+
+            isAnimating = false;
         }
     }
 }

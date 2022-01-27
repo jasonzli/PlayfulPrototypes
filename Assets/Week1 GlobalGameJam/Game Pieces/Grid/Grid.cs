@@ -1,5 +1,7 @@
 ﻿using OvenFresh.Week1_GlobalGameJam.Scriptable_Objects;
+using UnityEditor.Build;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.VFX;
 
 namespace OvenFresh
@@ -27,9 +29,9 @@ namespace OvenFresh
             height = config.height;
             _allTiles = new Tile[width, height];
             _allTiles = CreateBoard(width,height);
-            _mover = CreateMover(0,0, 0);
+            _mover = CreateMover(2,2, 0);
         }
-
+        
         Tile[,] CreateBoard(int xDimension, int yDimension)
         {
             var newTiles = new Tile[xDimension,yDimension];
@@ -62,20 +64,66 @@ namespace OvenFresh
                         tileObj.name = $"Tile {i},{j},0";
                     }
                     //add tile to array
-                    _allTiles[i, j] = tileComponent;
+                    newTiles[i, j] = tileComponent;
                 }
             }
 
             return newTiles;
         }
-
+        
+        //Read the texture from the board config to make a board
+        Tile[,] CreateBoardFromTexture(int _width, int _height)
+        {
+            return new Tile[_width, _height];
+        }
         Mover CreateMover(int xPos, int yPos, int zPos)
         {
             var mover = Instantiate(moverPrefab, Vector3.zero, Quaternion.identity);
             mover.transform.position = new Vector3(xPos, yPos, zPos);
             mover.name = "Mover";
-            mover.GetComponent<Mover>().Init(config.moverType,0,0,0);
+            mover.GetComponent<Mover>().Init(config.moverType,xPos,yPos,zPos);
             return mover.GetComponent<Mover>();
+        }
+
+        void OnMove(InputValue value)
+        {
+            var dir = value.Get<Vector2>();
+            //only trigger if direction valid
+            if (dir.magnitude < 1f) return; //rightn ow just to catch the 0,0 that appears
+            
+            //get the direction and increment until the wall is unpassable
+            var testIndex = new Vector2(_mover.xIndex, _mover.yIndex);
+            print(testIndex);
+
+            do
+            {
+                if (testIndex.x < 0 || testIndex.x >= width || testIndex.y < 0 || testIndex.y >= height) break;
+                print(_allTiles[(int) testIndex.x, (int) testIndex.y] == null);
+                if (_allTiles[(int) testIndex.x, (int) testIndex.y].type == config.wallTileType) break;
+                testIndex += dir;
+
+            } while (_allTiles[(int) testIndex.x, (int) testIndex.y].type != config.wallTileType);
+            
+            
+            //we've found the index,
+            testIndex -= dir;//decrement back
+            
+            
+            //compute the vector3 world coord that mover must go to
+            var target = transform.position + new Vector3(testIndex.x, testIndex.y, 0);
+            target = transform.localToWorldMatrix * target;
+
+            target = transform.TransformPoint(new Vector3(testIndex.x, testIndex.y, 0));
+            
+            //send the move command
+            _mover.MoveToPosition(target,.5f);
+            _mover.UpdateIndex((int) testIndex.x, (int) testIndex.y,0);
+
+        }
+
+        Vector2Int FarthestOpenTileInDirection(Vector2 dir)
+        {
+            return new Vector2Int();
         }
     }
 }

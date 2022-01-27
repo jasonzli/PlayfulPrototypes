@@ -6,6 +6,6 @@ namespace OvenFresh
     public class MoverType : ScriptableObject
     {
         public Color color;
-        
+        public CurveParameter animationCurve;
     }
 }

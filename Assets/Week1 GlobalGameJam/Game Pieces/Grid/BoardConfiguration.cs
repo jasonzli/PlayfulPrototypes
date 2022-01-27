@@ -16,8 +16,8 @@ namespace OvenFresh.Week1_GlobalGameJam.Scriptable_Objects
 
         public TileType groundTileType;
         public TileType wallTileType;
-        public MoverType moverType;
-        public Texture2D texture; //figure out how to map the texture later
+        public MoverType moverType; //each board has a different mover type that you transition between
+        public Texture2D mapTexture; //figure out how to map the texture later
         
     }
 }
