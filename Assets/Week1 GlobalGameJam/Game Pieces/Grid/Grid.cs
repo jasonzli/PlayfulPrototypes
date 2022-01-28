@@ -50,7 +50,7 @@ namespace OvenFresh
                     
                     //create tile
                     var tileObj = Instantiate(tilePrefab, Vector3.zero, Quaternion.identity, transform);
-                    tileObj.transform.localPosition = new Vector3(i, j,0);
+                    tileObj.transform.localPosition = new Vector3(i - width*.5f, j - height*.5f,0) ;
                     tileObj.transform.localRotation = Quaternion.identity;
                     var tileComponent = tileObj.GetComponent<Tile>();
                     
@@ -114,7 +114,7 @@ namespace OvenFresh
         Mover CreateMover(int xPos, int yPos, int zPos)
         {
             var mover = Instantiate(moverPrefab, Vector3.zero, Quaternion.identity);
-            mover.transform.position = transform.TransformPoint(new Vector3(xPos, yPos, zPos));
+            mover.transform.position = transform.TransformPoint(new Vector3(xPos - width*.5f, yPos - height*.5f, zPos));
             mover.name = "Mover";
             mover.GetComponent<Mover>().Init(config.moverType,xPos,yPos,zPos);
             return mover.GetComponent<Mover>();
@@ -147,10 +147,10 @@ namespace OvenFresh
 
 
             //compute the vector3 world coord that mover must go to
-            var target = transform.position + new Vector3(testIndex.x, testIndex.y, 0);
+            var target = transform.position + new Vector3(testIndex.x - width*.5f, testIndex.y - height*.5f, 0);
             target = transform.localToWorldMatrix * target;
 
-            target = transform.TransformPoint(new Vector3(testIndex.x, testIndex.y, 0));
+            target = transform.TransformPoint(new Vector3(testIndex.x-width*.5f, testIndex.y -height*.5f, 0));
             
             //send the move command
             _mover.MoveToPosition(target,.5f);

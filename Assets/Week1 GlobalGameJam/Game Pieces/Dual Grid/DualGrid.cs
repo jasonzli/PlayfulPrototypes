@@ -20,8 +20,7 @@ namespace OvenFresh
 
         void Awake()
         {
-            
-            CenterGrids();
+            //CenterGrids();
         }
 
         private void CenterGrids()
