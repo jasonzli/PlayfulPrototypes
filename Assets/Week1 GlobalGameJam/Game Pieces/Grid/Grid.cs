@@ -1,4 +1,5 @@
-﻿using OvenFresh.Week1_GlobalGameJam.Scriptable_Objects;
+﻿using System;
+using OvenFresh.Week1_GlobalGameJam.Scriptable_Objects;
 using UnityEditor.Build;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -25,11 +26,11 @@ namespace OvenFresh
 
         public void SetupBoard(BoardConfiguration config)
         {
-            width = config.width;
-            height = config.height;
+            width = config.mapTexture.width;
+            height = config.mapTexture.height;
             _allTiles = new Tile[width, height];
             _allTiles = CreateBoard(width,height);
-            _mover = CreateMover(2,2, 0);
+            //_mover = CreateMover(2,2, 0);
         }
         
         Tile[,] CreateBoard(int xDimension, int yDimension)
@@ -54,17 +55,48 @@ namespace OvenFresh
                     var tileComponent = tileObj.GetComponent<Tile>();
                     
                     //sample the texture
-                    
-                    //create a wall
-                    if (i == 0 || j == 0 || i == xDimension - 1 || j == yDimension - 1 || UnityEngine.Random.Range(0f,1f) < .3f)
+                    if (config.mapTexture == null)
                     {
-                        tileComponent.Init(config.wallTileType,i,j,0);
-                        tileObj.name = $"Wall {i},{j},0";
+                        //create a wall
+                        if (i == 0 || j == 0 || i == xDimension - 1 || j == yDimension - 1 ||
+                            UnityEngine.Random.Range(0f, 1f) < .3f)
+                        {
+                            tileComponent.Init(config.wallTileType, i, j, 0);
+                            tileObj.name = $"Wall {i},{j},0";
+                        }
+                        else //create a ground
+                        {
+                            tileComponent.Init(config.groundTileType, i, j, 0);
+                            tileObj.name = $"Tile {i},{j},0";
+                        }
                     }
-                    else //create a ground
+                    else
                     {
-                        tileComponent.Init(config.groundTileType,i,j,0);
-                        tileObj.name = $"Tile {i},{j},0";
+                        Color mapColor = config.mapTexture.GetPixel(i, j);
+                        
+                        if (mapColor == Color.black) //wall
+                        {
+                            tileComponent.Init(config.wallTileType, i, j, 0);
+                            tileObj.name = $"Wall {i},{j},0";
+                        }
+                        if (mapColor == Color.white) //ground
+                        {
+                            tileComponent.Init(config.groundTileType, i, j, 0);
+                            tileObj.name = $"Ground {i},{j},0";
+                        }
+                        if (mapColor == Color.blue) //mover + ground
+                        {
+                            tileComponent.Init(config.groundTileType, i, j, 0);
+                            tileObj.name = $"Ground {i},{j},0";
+                            //also create mover
+                            _mover = CreateMover(i, j, 0);
+                        }
+                        if (mapColor == Color.red) //goal
+                        {
+                            tileComponent.Init(config.goalTileType, i, j, 0);
+                            tileObj.name = $"Goal {i},{j},0";
+                        }
+                        
                     }
                     //add tile to array
                     newTiles[i, j] = tileComponent;
@@ -90,6 +122,7 @@ namespace OvenFresh
 
         void OnMove(InputValue value)
         {
+            if (_mover == null) return;
             var dir = value.Get<Vector2>();
             //only trigger if direction valid
             if (dir.magnitude < 1f) return; //rightn ow just to catch the 0,0 that appears

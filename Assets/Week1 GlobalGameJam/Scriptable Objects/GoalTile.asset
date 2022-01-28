@@ -12,5 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 805746cb7bd34bc89de992387915a15d, type: 3}
   m_Name: GoalTile
   m_EditorClassIdentifier: 
-  color: {r: 0.764151, g: 0.5457077, b: 0.23389104, a: 0}
-  interactiveType: 0
+  color: {r: 0.6928721, g: 1, b: 0.9801342, a: 1}

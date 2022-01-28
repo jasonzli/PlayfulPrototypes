@@ -12,5 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 805746cb7bd34bc89de992387915a15d, type: 3}
   m_Name: Wall Tile
   m_EditorClassIdentifier: 
-  color: {r: 0.795, g: 0.795, b: 0.795, a: 0}
-  interactiveType: 1
+  color: {r: 0.9245283, g: 0.7463284, b: 0.25681344, a: 0}
