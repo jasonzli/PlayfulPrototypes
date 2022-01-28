@@ -129,12 +129,13 @@ namespace OvenFresh
             
             //get the direction and increment until the wall is unpassable
             var testIndex = new Vector2(_mover.xIndex, _mover.yIndex);
-            print(testIndex);
-
+            
+            
+            //scan the grid in a direction until we hit a wall 
             do
             {
                 if (testIndex.x < 0 || testIndex.x >= width || testIndex.y < 0 || testIndex.y >= height) break;
-                print(_allTiles[(int) testIndex.x, (int) testIndex.y] == null);
+               
                 if (_allTiles[(int) testIndex.x, (int) testIndex.y].type == config.wallTileType) break;
                 testIndex += dir;
 
@@ -143,8 +144,8 @@ namespace OvenFresh
             
             //we've found the index,
             testIndex -= dir;//decrement back
-            
-            
+
+
             //compute the vector3 world coord that mover must go to
             var target = transform.position + new Vector3(testIndex.x, testIndex.y, 0);
             target = transform.localToWorldMatrix * target;

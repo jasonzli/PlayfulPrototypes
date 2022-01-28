@@ -20,7 +20,7 @@ namespace OvenFresh
 
         void Awake()
         {
-
+            
             CenterGrids();
         }
 
