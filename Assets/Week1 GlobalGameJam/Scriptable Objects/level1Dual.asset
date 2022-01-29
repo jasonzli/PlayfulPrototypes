@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e45fe42573b4956b4761a8ad2f0d055, type: 3}
   m_Name: level1Dual
   m_EditorClassIdentifier: 
-  configXY: {fileID: 11400000, guid: caa553435e3960b4a94628863cf29a6b, type: 2}
-  configZY: {fileID: 11400000, guid: caa553435e3960b4a94628863cf29a6b, type: 2}
+  xyGridConfig: {fileID: 11400000, guid: decbbc0e88991ea4093cae4c70e5829a, type: 2}
+  zyGridConfig: {fileID: 11400000, guid: a9969cbaa1549a0469ae079050f5e000, type: 2}

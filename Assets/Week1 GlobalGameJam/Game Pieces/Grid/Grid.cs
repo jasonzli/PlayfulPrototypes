@@ -17,20 +17,39 @@ namespace OvenFresh
         private int height;
 
         private Mover _mover;
+        private Vector3Int _moverPosition;
+        public Vector3Int MoverPosition
+        {
+            get { return _moverPosition; }
+            private set { _moverPosition = value; }
+        }
+        
         private Tile[,] _allTiles;
+        private Vector3Int _moverStartingPosition;
 
         void Awake()
         {
-            SetupBoard(config);
+            
         }
 
-        public void SetupBoard(BoardConfiguration config)
+        public void Init(BoardConfiguration _config)
         {
+            config = _config;
+        }
+
+        public Tile[,] SetupBoard(BoardConfiguration _config = null)
+        {
+            if (_config != null) config = _config;
+            
             width = config.mapTexture.width;
             height = config.mapTexture.height;
             _allTiles = new Tile[width, height];
+            
+            //This also sets the moverStartingPosition
             _allTiles = CreateBoard(width,height);
-            //_mover = CreateMover(2,2, 0);
+            MoverPosition = new Vector3Int (_moverStartingPosition.x,_moverStartingPosition.y,0);
+
+            return _allTiles;
         }
         
         Tile[,] CreateBoard(int xDimension, int yDimension)
@@ -50,7 +69,7 @@ namespace OvenFresh
                     
                     //create tile
                     var tileObj = Instantiate(tilePrefab, Vector3.zero, Quaternion.identity, transform);
-                    tileObj.transform.localPosition = new Vector3(i - width*.5f, j - height*.5f,0) ;
+                    tileObj.transform.localPosition = new Vector3(i, j,0) ;
                     tileObj.transform.localRotation = Quaternion.identity;
                     var tileComponent = tileObj.GetComponent<Tile>();
                     
@@ -89,7 +108,8 @@ namespace OvenFresh
                             tileComponent.Init(config.groundTileType, i, j, 0);
                             tileObj.name = $"Ground {i},{j},0";
                             //also create mover
-                            _mover = CreateMover(i, j, 0);
+                            _moverStartingPosition = new Vector3Int(i, j, 0);
+                            
                         }
                         if (mapColor == Color.red) //goal
                         {
@@ -111,14 +131,7 @@ namespace OvenFresh
         {
             return new Tile[_width, _height];
         }
-        Mover CreateMover(int xPos, int yPos, int zPos)
-        {
-            var mover = Instantiate(moverPrefab, Vector3.zero, Quaternion.identity);
-            mover.transform.position = transform.TransformPoint(new Vector3(xPos - width*.5f, yPos - height*.5f, zPos));
-            mover.name = "Mover";
-            mover.GetComponent<Mover>().Init(config.moverType,xPos,yPos,zPos);
-            return mover.GetComponent<Mover>();
-        }
+   
 
         void OnMove(InputValue value)
         {
@@ -147,10 +160,10 @@ namespace OvenFresh
 
 
             //compute the vector3 world coord that mover must go to
-            var target = transform.position + new Vector3(testIndex.x - width*.5f, testIndex.y - height*.5f, 0);
+            var target = transform.position + new Vector3(testIndex.x , testIndex.y, 0);
             target = transform.localToWorldMatrix * target;
 
-            target = transform.TransformPoint(new Vector3(testIndex.x-width*.5f, testIndex.y -height*.5f, 0));
+            target = transform.TransformPoint(new Vector3(testIndex.x, testIndex.y, 0));
             
             //send the move command
             _mover.MoveToPosition(target,.5f);
