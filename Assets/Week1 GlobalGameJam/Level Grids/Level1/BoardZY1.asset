@@ -17,3 +17,4 @@ MonoBehaviour:
   goalTileType: {fileID: 11400000, guid: 7ad19da2a24be6d408d432b2d20464d5, type: 2}
   moverType: {fileID: 11400000, guid: 6e8abd5a38b209d499d434951bf928b2, type: 2}
   mapTexture: {fileID: 2800000, guid: c4b32e34db2de7a4d81c093eea1a255e, type: 3}
+  movementCurve: {fileID: 11400000, guid: 3ce69934589549741ba4e5fa669c3f66, type: 2}

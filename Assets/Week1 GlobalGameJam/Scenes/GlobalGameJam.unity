@@ -333,7 +333,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 943166223}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: 5.5, y: 5.5, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -381,7 +381,7 @@ Camera:
   m_FOVAxisMode: 0
   m_SensorSize: {x: 36, y: 24}
   m_LensShift: {x: 0, y: 0}
-  m_FocalLength: 10.55
+  m_FocalLength: 17.137775
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
@@ -389,8 +389,8 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.3
-  far clip plane: 15
-  field of view: 97.358284
+  far clip plane: 25
+  field of view: 70.00001
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -446,7 +446,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1440633003}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -10, y: 0, z: 0}
+  m_LocalPosition: {x: 20, y: 5.5, z: 5.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -487,6 +487,7 @@ MonoBehaviour:
   gridXY: {fileID: 0}
   gridZY: {fileID: 0}
   moverPrefab: {fileID: 8873354502894580917, guid: 0db8238c85aa0ca4c9ed579e55dd585f, type: 3}
+  _mode: 0
 --- !u!4 &1522606614
 Transform:
   m_ObjectHideFlags: 0
@@ -595,7 +596,7 @@ MonoBehaviour:
   camPositionB: {fileID: 1440633004}
   movementCurve: {fileID: 11400000, guid: cdbf9740ec40730478f0c53e5916738e, type: 2}
   _cam: {fileID: 963194227}
-  lookAtTarget: {x: 0, y: 0, z: 0}
+  lookAtTarget: {x: 5, y: 5.5, z: 5}
 --- !u!4 &1543736880
 Transform:
   m_ObjectHideFlags: 0

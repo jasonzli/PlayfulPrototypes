@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace OvenFresh
 {
@@ -11,6 +12,13 @@ namespace OvenFresh
      * Between the two
      * The two grids themselves have no other control
      */
+
+    public enum MovementMode
+    {
+        XY,
+        ZY
+    }
+    
     public class DualGrid : MonoBehaviour
     {
 
@@ -24,7 +32,9 @@ namespace OvenFresh
         private Tile[,] _allXYTiles;
         private Tile[,] _allZYTiles;
         private Mover _mover;
-        void Awake()
+        [SerializeField] private MovementMode _mode;
+        
+        private void Awake()
         {
             CreatePuzzleObject();
         }
@@ -64,6 +74,9 @@ namespace OvenFresh
 
         }
         
+        
+        
+        //Creating the Mover
         Mover CreateMover(MoverType type, Vector3 target)
         {
             Vector3Int position = Vector3Int.RoundToInt(target);
@@ -76,6 +89,87 @@ namespace OvenFresh
             mover.name = "Mover";
             mover.GetComponent<Mover>().Init(type,xPos,yPos,zPos);
             return mover.GetComponent<Mover>();
+        }
+
+        void OnFire()
+        {
+            if (_mode != MovementMode.XY)
+            {
+                _mode = MovementMode.XY;
+            }
+            else
+            {
+                _mode = MovementMode.ZY;
+            }
+        }
+        
+        void OnMove(InputValue value)
+        {
+            if (_mover == null) return;
+            
+            var dir = value.Get<Vector2>();
+            
+            //only trigger if direction valid
+            if (dir.magnitude < 1f) return; //rightn ow just to catch the 0,0 that appears
+            
+            //Check the mode
+            Tile[,] gridToCheck = new Tile[1,1];
+            Vector2 gridIndex = new Vector2();
+            TileType wallType = dualConfig.xyGridConfig.wallTileType;
+            TileType goalType = dualConfig.xyGridConfig.goalTileType;
+            //set the values for checking
+            //set the grid that we check
+            //set the index in that grid based on the mover's index;
+            if (_mode == MovementMode.XY)
+            {
+                gridToCheck = _allXYTiles;
+                wallType = dualConfig.xyGridConfig.wallTileType;
+                gridIndex = new Vector2(_mover.xIndex, _mover.yIndex);
+            }else if (_mode == MovementMode.ZY)
+            {
+                gridToCheck = _allZYTiles;
+                wallType = dualConfig.zyGridConfig.wallTileType;
+                gridIndex = new Vector2(_mover.xIndex, _mover.yIndex);
+            }
+            
+            //scan the grid in a direction until we hit a wall 
+            do
+            {
+                if (gridIndex.x < 0 || gridIndex.x >= gridToCheck.GetLength(0) || gridIndex.y < 0 || gridIndex.y >= gridToCheck.GetLength(1)) break;
+               
+                if (gridToCheck[(int) gridIndex.x, (int) gridIndex.y].type == wallType||
+                    gridToCheck[(int) gridIndex.x, (int) gridIndex.y].type == goalType) break;
+                gridIndex += dir;
+
+            } while (gridToCheck[(int) gridIndex.x, (int) gridIndex.y].type != wallType||
+                     gridToCheck[(int) gridIndex.x, (int) gridIndex.y].type == goalType);
+            
+            
+            //we've found the index,
+            gridIndex -= dir;//decrement back
+
+            //update position based on movement mode
+            //do this by transforming the local point
+            //also set the grid to be parented
+            Vector3 target = new Vector3();
+            Grid gridToMove = gridXY;
+            if (_mode == MovementMode.XY)
+            { 
+                target = transform.TransformPoint(new Vector3(gridIndex.x, gridIndex.y, _mover.transform.position.z));
+                gridToMove = gridZY;
+                gridToMove.MoveToPosition(new Vector3(target.x, 0, 0));
+            }else if (_mode == MovementMode.ZY)
+            {
+                target = transform.TransformPoint(new Vector3(_mover.transform.position.x, gridIndex.y, gridIndex.x));
+                gridToMove = gridXY;
+                gridToMove.MoveToPosition(new Vector3(0, 0, target.z));
+            }
+            
+            
+            //send the move command
+            _mover.MoveToPosition(target,.5f);
+            _mover.UpdateIndex((int) gridIndex.x, (int) gridIndex.y,0);
+
         }
     }
 }

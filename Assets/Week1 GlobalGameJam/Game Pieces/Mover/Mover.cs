@@ -92,7 +92,7 @@ namespace OvenFresh
             }
 
             transform.position = targetPosition;
-
+            
             isAnimating = false; //open guard
         }
     }

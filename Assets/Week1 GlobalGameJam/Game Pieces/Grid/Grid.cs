@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using OvenFresh.Week1_GlobalGameJam.Scriptable_Objects;
 using UnityEditor.Build;
 using UnityEngine;
@@ -26,6 +27,7 @@ namespace OvenFresh
         
         private Tile[,] _allTiles;
         private Vector3Int _moverStartingPosition;
+        private bool _isAnimating;
 
         void Awake()
         {
@@ -133,7 +135,7 @@ namespace OvenFresh
         }
    
 
-        void OnMove(InputValue value)
+        void O(InputValue value)
         {
             if (_mover == null) return;
             var dir = value.Get<Vector2>();
@@ -174,6 +176,42 @@ namespace OvenFresh
         Vector2Int FarthestOpenTileInDirection(Vector2 dir)
         {
             return new Vector2Int();
+        }
+        public void MoveToPosition(Vector3 targetPosition, float moveInTime = .5f)
+        {
+            if (_isAnimating) return;
+
+            //set the guard
+            _isAnimating = true;
+               
+            //Use Coroutine for WEBGL
+            StartCoroutine(TravelTo(targetPosition, moveInTime));
+
+        }
+
+        public IEnumerator TravelTo(Vector3 targetPosition, float moveInTime = .5f)
+        {
+            var origin = transform.position;
+            var elapsedTime = 0f;
+            var t = 0f;
+            while (elapsedTime < moveInTime)
+            {
+                t = Mathf.Clamp(elapsedTime / moveInTime, 0f, 1f);
+
+                if (config.movementCurve)
+                {
+                    t = config.movementCurve.Evaluate(t);
+                }
+                
+                //move
+                transform.position = Vector3.Lerp(origin, targetPosition, t);
+                elapsedTime += Time.deltaTime;
+                yield return null;
+            }
+
+            transform.position = targetPosition;
+            
+            _isAnimating = false; //open guard
         }
     }
 }

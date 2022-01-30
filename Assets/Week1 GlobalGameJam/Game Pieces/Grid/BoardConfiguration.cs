@@ -12,6 +12,8 @@ namespace OvenFresh.Week1_GlobalGameJam.Scriptable_Objects
         public MoverType moverType; //each board has a different mover type that you transition between
         [Tooltip("Black for walls, white for ground, red for goal, blue for mover. Note that mover is also the position of the perpendicular grid")]
         public Texture2D mapTexture;
-        
+
+        public CurveParameter movementCurve;
+
     }
 }
