@@ -9,5 +9,6 @@ namespace OvenFresh
         public BoardConfiguration xyGridConfig;
         public BoardConfiguration zyGridConfig;
         public MovementMode startingMode;
+        public CurveParameter movementCurve;
     }
 }
