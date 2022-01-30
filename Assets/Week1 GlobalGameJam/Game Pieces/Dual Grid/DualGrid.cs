@@ -19,6 +19,7 @@ namespace OvenFresh
         ZY
     }
     
+    [RequireComponent(typeof(DualLevelController))]
     public class DualGrid : MonoBehaviour
     {
 
@@ -43,13 +44,24 @@ namespace OvenFresh
         
         private void Awake()
         {
-            CreatePuzzleObject();
         }
 
+        public void ClearData()
+        {
+            transform.DeleteChildren();
+        }
+
+        public void UpdateDualGridData(DualGridConfiguration _config)
+        {
+            dualConfig = _config;
+        }
         public void Reset()
         {
-            
+            ClearData();
+            CreatePuzzleObject();
         }
+        
+        
 
         //We create the grid centered on the coordinate of the DualGrid object
         public void CreatePuzzleObject()
@@ -163,7 +175,9 @@ namespace OvenFresh
             _isAnimating = false; //open guard
         }
         
+        
         //This movement action is begging for refactor
+        public static Action GoalReached;
         void OnMove(InputValue value)
         {
             
@@ -252,9 +266,22 @@ namespace OvenFresh
                 _mover.MoveToPosition(target,.5f);
                 _mover.UpdateIndex(_mover.xIndex, (int) gridIndex.y,(int) gridIndex.x);
             }
-            
-            
 
+            if (goalFound)
+            {
+                if (GoalReached != null)
+                {
+                    StartCoroutine(RunFunctionAfterDelay(GoalReached, .4f));
+                }
+            }
+
+        }
+
+        private IEnumerator RunFunctionAfterDelay(Action action, float delayTime)
+        {
+            yield return new WaitForSeconds(delayTime);
+            
+            action();
         }
     }
 }
