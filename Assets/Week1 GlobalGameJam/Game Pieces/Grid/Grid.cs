@@ -14,8 +14,18 @@ namespace OvenFresh
         [SerializeField] private GameObject tilePrefab;
         [SerializeField] private GameObject moverPrefab;
         
-        private int width;
-        private int height;
+        private int _width;
+
+        public int Width
+        {
+            get { return _width; }
+        }
+        private int _height;
+        
+        public int Height
+        {
+            get { return _height; }
+        }
 
         private Mover _mover;
         private Vector3Int _moverPosition;
@@ -28,6 +38,7 @@ namespace OvenFresh
         private Tile[,] _allTiles;
         private Vector3Int _moverStartingPosition;
         private bool _isAnimating;
+        private Vector3 _gridCenteringOffset;
 
         void Awake()
         {
@@ -43,12 +54,13 @@ namespace OvenFresh
         {
             if (_config != null) config = _config;
             
-            width = config.mapTexture.width;
-            height = config.mapTexture.height;
-            _allTiles = new Tile[width, height];
+            _width = config.mapTexture.width;
+            _height = config.mapTexture.height;
+            _gridCenteringOffset = new Vector3((_width - 1) * .5f, (_height - 1) * .5f, 0);
+            _allTiles = new Tile[_width, _height];
             
             //This also sets the moverStartingPosition
-            _allTiles = CreateBoard(width,height);
+            _allTiles = CreateBoard(_width,_height);
             MoverPosition = new Vector3Int (_moverStartingPosition.x,_moverStartingPosition.y,0);
 
             return _allTiles;
@@ -71,7 +83,7 @@ namespace OvenFresh
                     
                     //create tile
                     var tileObj = Instantiate(tilePrefab, Vector3.zero, Quaternion.identity, transform);
-                    tileObj.transform.localPosition = new Vector3(i, j,0) ;
+                    tileObj.transform.localPosition = new Vector3(i, j,0) - _gridCenteringOffset ;
                     tileObj.transform.localRotation = Quaternion.identity;
                     var tileComponent = tileObj.GetComponent<Tile>();
                     
@@ -135,48 +147,6 @@ namespace OvenFresh
         }
    
 
-        void O(InputValue value)
-        {
-            if (_mover == null) return;
-            var dir = value.Get<Vector2>();
-            //only trigger if direction valid
-            if (dir.magnitude < 1f) return; //rightn ow just to catch the 0,0 that appears
-            
-            //get the direction and increment until the wall is unpassable
-            var testIndex = new Vector2(_mover.xIndex, _mover.yIndex);
-            
-            
-            //scan the grid in a direction until we hit a wall 
-            do
-            {
-                if (testIndex.x < 0 || testIndex.x >= width || testIndex.y < 0 || testIndex.y >= height) break;
-               
-                if (_allTiles[(int) testIndex.x, (int) testIndex.y].type == config.wallTileType) break;
-                testIndex += dir;
-
-            } while (_allTiles[(int) testIndex.x, (int) testIndex.y].type != config.wallTileType);
-            
-            
-            //we've found the index,
-            testIndex -= dir;//decrement back
-
-
-            //compute the vector3 world coord that mover must go to
-            var target = transform.position + new Vector3(testIndex.x , testIndex.y, 0);
-            target = transform.localToWorldMatrix * target;
-
-            target = transform.TransformPoint(new Vector3(testIndex.x, testIndex.y, 0));
-            
-            //send the move command
-            _mover.MoveToPosition(target,.5f);
-            _mover.UpdateIndex((int) testIndex.x, (int) testIndex.y,0);
-
-        }
-
-        Vector2Int FarthestOpenTileInDirection(Vector2 dir)
-        {
-            return new Vector2Int();
-        }
         public void MoveToPosition(Vector3 targetPosition, float moveInTime = .5f)
         {
             if (_isAnimating) return;
