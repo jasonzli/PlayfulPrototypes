@@ -213,5 +213,41 @@ namespace OvenFresh
             
             _isAnimating = false; //open guard
         }
+
+        public void ScaleAxisAnimation(Vector3 targetScale, float moveInTime = 0.5f)
+        {
+            if (_isAnimating) return;
+
+            //set the guard
+            _isAnimating = true;
+
+            //Use Coroutine for WEBGL
+            StartCoroutine(ScaleAxisRoutine(targetScale,moveInTime));
+        }
+
+        private IEnumerator ScaleAxisRoutine(Vector3 targetScale, float moveInTime)
+        {
+            var originalScale = transform.localScale;
+            var elapsedTime = 0f;
+            var t = 0f;
+            while (elapsedTime < moveInTime)
+            {
+                t = elapsedTime / moveInTime;
+                t = Mathf.Clamp(elapsedTime / moveInTime, 0f, 1f);
+
+                if (config.movementCurve)
+                {
+                    t = config.movementCurve.Evaluate(t);
+                }
+                //move
+                transform.localScale = Vector3.Lerp(originalScale, targetScale, t);
+                elapsedTime += Time.deltaTime;
+                yield return null;
+            }
+
+            transform.localScale = targetScale;
+
+            _isAnimating = false;
+        }
     }
 }
