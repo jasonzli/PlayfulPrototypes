@@ -107,6 +107,7 @@ namespace OvenFresh
         
         void OnFire()
         {
+            if (gridXY.IsAnimating || gridZY.IsAnimating || _mover.IsAnimating) return;
             if (_mode != MovementMode.XY)
             {
                 _mode = MovementMode.XY;
@@ -125,6 +126,7 @@ namespace OvenFresh
         void OnMove(InputValue value)
         {
             if (_mover == null) return;
+            if (gridXY.IsAnimating || gridZY.IsAnimating || _mover.IsAnimating) return;
             
             var dir = value.Get<Vector2>();
             

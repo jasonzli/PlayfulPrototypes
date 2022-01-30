@@ -38,6 +38,11 @@ namespace OvenFresh
         private Tile[,] _allTiles;
         private Vector3Int _moverStartingPosition;
         private bool _isAnimating;
+
+        public bool IsAnimating
+        {
+            get { return _isAnimating; }
+        }
         private Vector3 _gridCenteringOffset;
 
         void Awake()

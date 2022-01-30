@@ -20,7 +20,11 @@ namespace OvenFresh
         private MeshRenderer _renderer;
         private MaterialPropertyBlock _materialPropertyBlock;
 
-        private bool isAnimating;
+        private bool _isAnimating;
+        public bool IsAnimating
+        {
+            get { return _isAnimating; }
+        }
         
         
         void Awake()
@@ -61,10 +65,10 @@ namespace OvenFresh
         //Movement
         public void MoveToPosition(Vector3 targetPosition, float moveInTime = .5f)
         {
-            if (isAnimating) return;
+            if (_isAnimating) return;
 
             //set the guard
-            isAnimating = true;
+            _isAnimating = true;
                
             //Use Coroutine for WEBGL
             StartCoroutine(TravelTo(targetPosition, moveInTime));
@@ -93,7 +97,7 @@ namespace OvenFresh
 
             transform.position = targetPosition;
             
-            isAnimating = false; //open guard
+            _isAnimating = false; //open guard
         }
     }
 }
