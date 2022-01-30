@@ -33,6 +33,10 @@ namespace OvenFresh
             _level = Mathf.Clamp(index,0,levelList.Count-1);
             _dualGrid.UpdateDualGridData(levelList[_level]);
             _dualGrid.Reset();
+            _dualGrid.ScaleOut(new Vector3(0,0,0), 0f);
+            _dualGrid.ScaleOut(new Vector3(1,1,1), 2.2f);
+
+            //_dualGrid.SpinInPlace(2.2f);
         }
 
         void IncrementLevel()
@@ -48,13 +52,31 @@ namespace OvenFresh
         void LevelCompleted()
         {
             IncrementLevel();
-            //Scale out level
 
+            StartCoroutine(LevelCompletedRoutine());
+        }
+
+        private IEnumerator LevelCompletedRoutine()
+        {
+            
+            //Scale out level
+            //scale to 15 ish
+            _dualGrid.ScaleOut(new Vector3(15,15,15), 1.0f);
+
+            yield return new WaitForSeconds(1.4f);
+            
             //set new level
             _dualGrid.UpdateDualGridData(levelList[_level]);
             
             //create new level
-            _dualGrid.Reset();
+            _dualGrid.ScaleOut(new Vector3(1,1,1), 0f);
+            _dualGrid.Reset(); //reset needs the scale to be 1
+            
+            //use the coroutine to set the value instantly
+            _dualGrid.ScaleOut(new Vector3(0,0,0), 0f);
+            _dualGrid.ScaleOut(new Vector3(1,1,1), 2.2f);
+
+            //_dualGrid.SpinInPlace(2.2f);
         }
         
         void OnEnable()

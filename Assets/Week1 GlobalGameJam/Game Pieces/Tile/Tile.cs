@@ -43,17 +43,21 @@ namespace OvenFresh
         {
             var t = 0f;
             var elapsedTime = 0f;
+            Color targetColor = type.inactiveColor;
+            if (on)
+            {
+                targetColor = type.activeColor;
+            }
+
+            Color currentColor = _materialPropertyBlock.GetColor("_Color");
             while (elapsedTime < animationTime)
             {
                 t = Mathf.Clamp(elapsedTime / animationTime, 0, 1);
 
                 t = type.transitionCurve.Evaluate(t);
-                if (on) //invert if turning on
-                {
-                    t = 1 - t;
-                }
+                
 
-                var c = Color.Lerp(type.activeColor, type.inactiveColor, t);
+                var c = Color.Lerp(currentColor, targetColor, t);
 
                 //set the material properties
                 _materialPropertyBlock.SetColor("_Color", c);
@@ -63,7 +67,11 @@ namespace OvenFresh
                 elapsedTime += Time.deltaTime;
                 yield return null;
             }
+
+            _materialPropertyBlock.SetColor("_Color", targetColor);
+            _renderer.SetPropertyBlock(_materialPropertyBlock);
             
+
         }
 
     }

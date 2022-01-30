@@ -42,10 +42,6 @@ namespace OvenFresh
             get { return _isAnimating; }
         }
         
-        private void Awake()
-        {
-        }
-
         public void ClearData()
         {
             transform.DeleteChildren();
@@ -175,6 +171,59 @@ namespace OvenFresh
             _isAnimating = false; //open guard
         }
         
+        public void ScaleOut(Vector3 targetScale, float animationTime = .3f)
+        {
+            _isAnimating = true;
+            StartCoroutine(ScaleAxisRoutine(targetScale,animationTime));
+        }
+
+        IEnumerator ScaleAxisRoutine(Vector3 targetScale, float animationTime = .5f)
+        {
+            var t = 0f;
+            var elapsedTime = 0f;
+            var oldScale = transform.localScale;
+            while (elapsedTime < animationTime)
+            {
+                t = Mathf.Clamp(elapsedTime / animationTime, 0, 1);
+                t = dualConfig.movementCurve.Evaluate(t);
+
+                transform.localScale = Vector3.Lerp(oldScale, targetScale, t);
+                
+                elapsedTime += Time.deltaTime;
+                yield return null;
+            }
+
+            transform.localScale = targetScale;
+            _isAnimating = false;
+        }
+
+        public void SpinInPlace(float animationTime = .75f)
+        {
+            StartCoroutine(SpinInPlaceRoutine(animationTime));
+        }
+
+        IEnumerator SpinInPlaceRoutine(float animationTime = .75f)
+        {
+            //spin on two axes
+            var t = 0f;
+            var elapsedTime = 0f;
+            //create a spin in two axes.
+            while (elapsedTime < animationTime)
+            {
+                t = Mathf.Clamp(elapsedTime / animationTime, 0, 1);
+                t = dualConfig.movementCurve.Evaluate(t);
+
+                transform.localRotation = 
+                    Quaternion.AngleAxis(1f*360f * t , Vector3.up) *
+                    Quaternion.AngleAxis(1f*360f * t, Vector3.right);
+                    
+                elapsedTime += Time.deltaTime;
+                yield return null;
+            }
+
+            transform.localRotation = Quaternion.identity;
+            _isAnimating = false;
+        }
         
         //This movement action is begging for refactor
         public static Action GoalReached;

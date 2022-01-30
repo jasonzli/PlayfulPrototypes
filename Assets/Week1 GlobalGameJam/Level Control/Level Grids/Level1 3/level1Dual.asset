@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e45fe42573b4956b4761a8ad2f0d055, type: 3}
+  m_Name: level1Dual
+  m_EditorClassIdentifier: 
+  xyGridConfig: {fileID: 11400000, guid: decbbc0e88991ea4093cae4c70e5829a, type: 2}
+  zyGridConfig: {fileID: 11400000, guid: a9969cbaa1549a0469ae079050f5e000, type: 2}
+  startingMode: 0
+  movementCurve: {fileID: 11400000, guid: fd04c7f730929c34c8062e582c59d1f3, type: 2}
+  UIText: There you go!

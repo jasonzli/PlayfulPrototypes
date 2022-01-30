@@ -10,5 +10,6 @@ namespace OvenFresh
         public BoardConfiguration zyGridConfig;
         public MovementMode startingMode;
         public CurveParameter movementCurve;
+        public string UIText;
     }
 }
