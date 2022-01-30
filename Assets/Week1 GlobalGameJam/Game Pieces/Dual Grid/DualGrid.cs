@@ -84,11 +84,11 @@ namespace OvenFresh
              //we start in XY mode
              if (dualConfig.startingMode == MovementMode.XY)
              {
-                 gridZY.transform.localScale = new Vector3(0, 1, 1);
+                 //gridZY.transform.localScale = new Vector3(0, 1, 1);
              }
              else
              {
-                 gridXY.transform.localScale = new Vector3(0, 1, 1);
+                 //gridXY.transform.localScale = new Vector3(0, 1, 1);
              }
 
         }
@@ -118,14 +118,18 @@ namespace OvenFresh
             if (_mode != MovementMode.XY)
             {
                 _mode = MovementMode.XY;
-                gridZY.ScaleAxisAnimation(new Vector3(0,1,1),.5f);
-                gridXY.ScaleAxisAnimation(new Vector3(1,1,1),.5f);
+                //gridZY.ScaleAxisAnimation(new Vector3(0,1,1),.5f);
+                //gridXY.ScaleAxisAnimation(new Vector3(1,1,1),.5f);
+                StartCoroutine(RotateSelf(Quaternion.AngleAxis(0, Vector3.up), .5f));
             }
             else
             {
                 _mode = MovementMode.ZY;
-                gridXY.ScaleAxisAnimation(new Vector3(0,1,1),.5f);
-                gridZY.ScaleAxisAnimation(new Vector3(1,1,1),.5f);
+                //gridXY.ScaleAxisAnimation(new Vector3(0, 1, 1), .5f);
+                //gridZY.ScaleAxisAnimation(new Vector3(1, 1, 1), .5f);
+                StartCoroutine(RotateSelf(Quaternion.AngleAxis(90, Vector3.up), .5f));
+            }
+        }
         private IEnumerator RotateSelf(Quaternion targetRotation, float moveInTime = .5f)
         {
             _isAnimating = true;
@@ -223,7 +227,7 @@ namespace OvenFresh
             
             if (_mode == MovementMode.XY)
             { 
-                target = transform.TransformPoint(new Vector3(gridIndex.x - _gridOffset.x, gridIndex.y -_gridOffset.y, _mover.transform.position.z) );
+                target = new Vector3(gridIndex.x - _gridOffset.x, gridIndex.y -_gridOffset.y, gridXY.transform.localPosition.z);
                 gridToMove = gridZY;
                 gridToMove.MoveToPosition(new Vector3(target.x, 0, 0)); //follow the mover
                 //send the move command
@@ -231,9 +235,10 @@ namespace OvenFresh
                 _mover.UpdateIndex((int) gridIndex.x, (int) gridIndex.y,_mover.zIndex); //correctly update index
             }else if (_mode == MovementMode.ZY)
             {
-                target = transform.TransformPoint(new Vector3(_mover.transform.position.x, gridIndex.y - _gridOffset.y, gridIndex.x - _gridOffset.z));
+                target = new Vector3(gridZY.transform.localPosition.x, gridIndex.y - _gridOffset.y, gridIndex.x - _gridOffset.z);
                 gridToMove = gridXY;
-                gridToMove.MoveToPosition(new Vector3(0, 0, target.z)); //follow the mover
+                gridToMove.MoveToPosition((new Vector3(0, 0, target.z))); //follow the mover
+                
                 //send the move command
                 _mover.MoveToPosition(target,.5f);
                 _mover.UpdateIndex(_mover.xIndex, (int) gridIndex.y,(int) gridIndex.x);

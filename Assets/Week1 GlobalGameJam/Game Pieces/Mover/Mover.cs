@@ -77,7 +77,7 @@ namespace OvenFresh
 
         public IEnumerator TravelTo(Vector3 targetPosition, float moveInTime = .5f)
         {
-            var origin = transform.position;
+            var origin = transform.localPosition;
             var elapsedTime = 0f;
             var t = 0f;
             while (elapsedTime < moveInTime)
@@ -90,12 +90,12 @@ namespace OvenFresh
                 }
                 
                 //move
-                transform.position = Vector3.Lerp(origin, targetPosition, t);
+                transform.localPosition = Vector3.Lerp(origin, targetPosition, t);
                 elapsedTime += Time.deltaTime;
                 yield return null;
             }
 
-            transform.position = targetPosition;
+            transform.localPosition = targetPosition;
             
             _isAnimating = false; //open guard
         }
