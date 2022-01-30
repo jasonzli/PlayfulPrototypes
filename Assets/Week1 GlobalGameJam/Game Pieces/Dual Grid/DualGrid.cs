@@ -62,6 +62,11 @@ namespace OvenFresh
         //We create the grid centered on the coordinate of the DualGrid object
         public void CreatePuzzleObject()
         {
+            //reset orientation
+            transform.localRotation = Quaternion.identity;
+            //start in XY
+            _mode = dualConfig.startingMode;
+
             //Create the two grids, get the mover positions from both
             gridXY = Instantiate(emptyGridPrefab, Vector3.zero, Quaternion.identity,transform).GetComponent<Grid>();
             gridZY = Instantiate(emptyGridPrefab, Vector3.zero,Quaternion.AngleAxis(-90f,Vector3.up),transform ).GetComponent<Grid>();
@@ -92,9 +97,8 @@ namespace OvenFresh
             
             //place the grids and mover into position
             _mover = CreateMover(dualConfig.xyGridConfig.moverType,combinedMoverPosition);
-            
-            
-            //start in XY, fade out ZY grid;
+
+            //fade out ZY grid;
             gridZY.FadeOutWalls(.15f);
 
         }
@@ -194,6 +198,32 @@ namespace OvenFresh
             }
 
             transform.localScale = targetScale;
+            _isAnimating = false;
+        }
+        
+        public void MoveTowards(Vector3 targetPosition, float animationTime = .3f)
+        {
+            _isAnimating = true;
+            StartCoroutine(MoveTowardsRoutine(targetPosition,animationTime));
+        }
+
+        IEnumerator MoveTowardsRoutine(Vector3 targetPosition, float animationTime)
+        {
+            var t = 0f;
+            var elapsedTime = 0f;
+            var oldPosition = transform.localPosition;
+            while (elapsedTime < animationTime)
+            {
+                t = Mathf.Clamp(elapsedTime / animationTime, 0, 1);
+                t = dualConfig.movementCurve.Evaluate(t);
+
+                transform.localPosition = Vector3.Lerp(oldPosition, targetPosition, t);
+                
+                elapsedTime += Time.deltaTime;
+                yield return null;
+            }
+
+            transform.localPosition = targetPosition;
             _isAnimating = false;
         }
 

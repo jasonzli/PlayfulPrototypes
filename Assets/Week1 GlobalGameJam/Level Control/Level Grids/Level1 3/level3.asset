@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5e45fe42573b4956b4761a8ad2f0d055, type: 3}
-  m_Name: level2
+  m_Name: level3
   m_EditorClassIdentifier: 
-  xyGridConfig: {fileID: 11400000, guid: 5bf9ba8ee09f7a04c9dd09fed922426e, type: 2}
-  zyGridConfig: {fileID: 11400000, guid: 686caac25dfa50a4eb1bbee4c2050b56, type: 2}
+  xyGridConfig: {fileID: 11400000, guid: a2139124bbeec304b987132651c79755, type: 2}
+  zyGridConfig: {fileID: 11400000, guid: 99d9d309dab7f5b45a283b8ba2c370b8, type: 2}
   startingMode: 0
   movementCurve: {fileID: 11400000, guid: fd04c7f730929c34c8062e582c59d1f3, type: 2}
-  UIText: Click for a new perspective
+  UIText: You can always go around

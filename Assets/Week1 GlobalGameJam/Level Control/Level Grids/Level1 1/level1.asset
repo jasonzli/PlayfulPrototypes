@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e45fe42573b4956b4761a8ad2f0d055, type: 3}
   m_Name: level1
   m_EditorClassIdentifier: 
-  xyGridConfig: {fileID: 11400000, guid: decbbc0e88991ea4093cae4c70e5829a, type: 2}
-  zyGridConfig: {fileID: 11400000, guid: a9969cbaa1549a0469ae079050f5e000, type: 2}
+  xyGridConfig: {fileID: 11400000, guid: 7411db944d023f54185ea6842ab4876f, type: 2}
+  zyGridConfig: {fileID: 11400000, guid: ef39fc40d9cebe949b49739b6d73b912, type: 2}
   startingMode: 0
   movementCurve: {fileID: 11400000, guid: fd04c7f730929c34c8062e582c59d1f3, type: 2}
-  UIText: Slide to Red
+  UIText: Sliiide to the Red Cube
