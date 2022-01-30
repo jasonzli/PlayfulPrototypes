@@ -34,6 +34,12 @@ namespace OvenFresh
         private Vector3 _gridOffset;
         private Mover _mover;
         [SerializeField] private MovementMode _mode;
+        private bool _isAnimating;
+
+        public bool IsAnimating
+        {
+            get { return _isAnimating; }
+        }
         
         private void Awake()
         {
@@ -107,7 +113,8 @@ namespace OvenFresh
         
         void OnFire()
         {
-            if (gridXY.IsAnimating || gridZY.IsAnimating || _mover.IsAnimating) return;
+            if (IsAnimating || gridXY.IsAnimating || gridZY.IsAnimating || _mover.IsAnimating) return;
+            
             if (_mode != MovementMode.XY)
             {
                 _mode = MovementMode.XY;
@@ -119,15 +126,38 @@ namespace OvenFresh
                 _mode = MovementMode.ZY;
                 gridXY.ScaleAxisAnimation(new Vector3(0,1,1),.5f);
                 gridZY.ScaleAxisAnimation(new Vector3(1,1,1),.5f);
+        private IEnumerator RotateSelf(Quaternion targetRotation, float moveInTime = .5f)
+        {
+            _isAnimating = true;
+            var t = 0f;
+            var elapsedTime = 0f;
+            var oldOrientation = transform.localRotation;
+            while (elapsedTime < moveInTime)
+            {
+                t = Mathf.Clamp(elapsedTime / moveInTime, 0f, 1f);
+
+                if (dualConfig.movementCurve)
+                {
+                    t = dualConfig.movementCurve.Evaluate(t);
+                }
+                
+                //move
+                transform.localRotation = Quaternion.Lerp(oldOrientation,targetRotation,t);
+                elapsedTime += Time.deltaTime;
+                yield return null;
             }
+
+            transform.localRotation = targetRotation;
+            
+            _isAnimating = false; //open guard
         }
         
         //This movement action is begging for refactor
         void OnMove(InputValue value)
         {
             if (_mover == null) return;
-            if (gridXY.IsAnimating || gridZY.IsAnimating || _mover.IsAnimating) return;
-            
+            if (IsAnimating || gridXY.IsAnimating || gridZY.IsAnimating || _mover.IsAnimating) return;
+
             var dir = value.Get<Vector2>();
             
             //only trigger if direction valid
