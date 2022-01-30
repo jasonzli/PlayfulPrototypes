@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 132ac0b0596640ec84197ce59aa3a32f, type: 3}
   m_Name: Default Mover
   m_EditorClassIdentifier: 
-  color: {r: 0, g: 0.7924528, b: 0.7492306, a: 0}
+  color: {r: 0.6582188, g: 0, b: 0.7921569, a: 0}
   animationCurve: {fileID: 11400000, guid: 3ce69934589549741ba4e5fa669c3f66, type: 2}

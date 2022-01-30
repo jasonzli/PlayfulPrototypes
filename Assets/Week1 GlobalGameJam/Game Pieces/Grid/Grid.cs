@@ -224,5 +224,38 @@ namespace OvenFresh
 
             _isAnimating = false;
         }
+
+        public void FadeOutWalls(float animationTime)
+        {
+            foreach (Tile tile in _allTiles)
+            {
+                if (tile.type == config.wallTileType)
+                {
+                    tile.FadeAnimation(false, animationTime);
+                }
+            }
+
+            StartCoroutine(AnimationEnd(animationTime));
+        }
+        public void FadeInWalls(float animationTime)
+        {
+            foreach (Tile tile in _allTiles)
+            {
+                if (tile.type == config.wallTileType)
+                {
+                    tile.FadeAnimation(true, animationTime);
+                }
+            }
+
+            StartCoroutine(AnimationEnd(animationTime));
+        }
+
+        //a guard for animations that we send out
+        private IEnumerator AnimationEnd(float animationTime)
+        {
+            _isAnimating = true;
+            yield return new WaitForSeconds(animationTime);
+            _isAnimating = false;
+        }
     }
 }

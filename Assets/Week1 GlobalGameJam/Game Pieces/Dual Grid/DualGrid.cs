@@ -81,15 +81,8 @@ namespace OvenFresh
             _mover = CreateMover(dualConfig.xyGridConfig.moverType,combinedMoverPosition);
             
             
-             //we start in XY mode
-             if (dualConfig.startingMode == MovementMode.XY)
-             {
-                 //gridZY.transform.localScale = new Vector3(0, 1, 1);
-             }
-             else
-             {
-                 //gridXY.transform.localScale = new Vector3(0, 1, 1);
-             }
+            //start in XY, fade out ZY grid;
+            gridZY.FadeOutWalls(.15f);
 
         }
         
@@ -115,20 +108,29 @@ namespace OvenFresh
         {
             if (IsAnimating || gridXY.IsAnimating || gridZY.IsAnimating || _mover.IsAnimating) return;
             
+            //check if the corresponding position is trapped in a wall
+            if(IndexIsInGridWall(0,0,gridXY)){}
+            
             if (_mode != MovementMode.XY)
             {
                 _mode = MovementMode.XY;
-                //gridZY.ScaleAxisAnimation(new Vector3(0,1,1),.5f);
-                //gridXY.ScaleAxisAnimation(new Vector3(1,1,1),.5f);
+                gridZY.FadeOutWalls(.5f);
+                gridXY.FadeInWalls(.5f);
                 StartCoroutine(RotateSelf(Quaternion.AngleAxis(0, Vector3.up), .5f));
             }
             else
             {
                 _mode = MovementMode.ZY;
-                //gridXY.ScaleAxisAnimation(new Vector3(0, 1, 1), .5f);
-                //gridZY.ScaleAxisAnimation(new Vector3(1, 1, 1), .5f);
+                gridXY.FadeOutWalls(.5f);
+                gridZY.FadeInWalls(.5f);
+                
                 StartCoroutine(RotateSelf(Quaternion.AngleAxis(90, Vector3.up), .5f));
             }
+        }
+
+        public bool IndexIsInGridWall(int xIndex, int yIndex, Grid grid)
+        {
+            return false;
         }
         private IEnumerator RotateSelf(Quaternion targetRotation, float moveInTime = .5f)
         {
