@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 805746cb7bd34bc89de992387915a15d, type: 3}
   m_Name: GoalTile
   m_EditorClassIdentifier: 
-  activeColor: {r: 1, g: 0, b: 0.025000095, a: 1}
-  inactiveColor: {r: 0, g: 0, b: 0, a: 0}
-  transitionCurve: {fileID: 0}
+  activeColor: {r: 1, g: 0.29167747, b: 0.15499997, a: 1}
+  inactiveColor: {r: 1, g: 0.43921566, b: 0.65198165, a: 0.39607844}
+  transitionCurve: {fileID: 11400000, guid: 0b61951c01c131047ae32ebbc863877f, type: 2}
   RenderEnabled: 1

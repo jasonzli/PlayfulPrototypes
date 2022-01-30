@@ -229,7 +229,7 @@ namespace OvenFresh
         {
             foreach (Tile tile in _allTiles)
             {
-                if (tile.type == config.wallTileType)
+                if (tile.type == config.wallTileType|| tile.type == config.goalTileType)
                 {
                     tile.FadeAnimation(false, animationTime);
                 }
@@ -241,7 +241,7 @@ namespace OvenFresh
         {
             foreach (Tile tile in _allTiles)
             {
-                if (tile.type == config.wallTileType)
+                if (tile.type == config.wallTileType || tile.type == config.goalTileType)
                 {
                     tile.FadeAnimation(true, animationTime);
                 }

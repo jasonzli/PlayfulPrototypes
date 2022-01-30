@@ -46,6 +46,11 @@ namespace OvenFresh
             CreatePuzzleObject();
         }
 
+        public void Reset()
+        {
+            
+        }
+
         //We create the grid centered on the coordinate of the DualGrid object
         public void CreatePuzzleObject()
         {
@@ -161,19 +166,21 @@ namespace OvenFresh
         //This movement action is begging for refactor
         void OnMove(InputValue value)
         {
-            if (_mover == null) return;
-            if (IsAnimating || gridXY.IsAnimating || gridZY.IsAnimating || _mover.IsAnimating) return;
+            
+            if (_mover == null) return; //check if we even have a mover
+            if (IsAnimating || gridXY.IsAnimating || gridZY.IsAnimating || _mover.IsAnimating) return; //animation guard
 
-            var dir = value.Get<Vector2>();
+            var dir = value.Get<Vector2>(); //direction of input
             
             //only trigger if direction valid
             if (dir.magnitude < 1f) return; //rightn ow just to catch the 0,0 that appears
             
-            //Check the mode
+            //Check the correct grid based on the mode
             Tile[,] gridToCheck = new Tile[1,1];
             Vector2 gridIndex = new Vector2();
             TileType wallType = dualConfig.xyGridConfig.wallTileType;
             TileType goalType = dualConfig.xyGridConfig.goalTileType;
+            
             //set the values for checking
             //set the grid that we check
             //set the index in that grid based on the mover's index;
@@ -189,7 +196,7 @@ namespace OvenFresh
                 gridIndex = new Vector2(_mover.zIndex, _mover.yIndex);
             }
             
-            //check immediately if it's a wallTile and do Nothing
+            //check immediately if it's a wallTile and do nothing
             if (gridToCheck[(int) gridIndex.x, (int) gridIndex.y].type == wallType) return ;
             
             //scan the grid in a direction until we hit a wall 
