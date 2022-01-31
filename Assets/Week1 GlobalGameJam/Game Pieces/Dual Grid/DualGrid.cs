@@ -121,6 +121,9 @@ namespace OvenFresh
         }
 
         
+        //This is the on mouse and spacebar behavior
+        //This needs to be taken out of the OnFire and be indirected to a collection of functions
+        //Ideally this would delegate between the two.
         void OnFire()
         {
             if (IsAnimating || gridXY.IsAnimating || gridZY.IsAnimating || _mover.IsAnimating) return;
@@ -256,6 +259,19 @@ namespace OvenFresh
         }
         
         //This movement action is begging for refactor
+        /// <summary>
+        /// Ok so this function is a bit fucked
+        /// It takes the moving direction from the input value, which is fortunately passed as a Vec2
+        /// But hen we need to transform that into a scan
+        /// So we can the appropriately aligned grid in the direction of the movement for the wall or goal
+        /// if it's a wall, we stop and decrement so we go the place before it
+        /// If it's a goal, we go to it
+        ///
+        /// Once we figureo ut where we're going, we initiate the movement of both the grid and the mover
+        /// Each of these has to be handled in a move specific way, which is problematic.
+        /// It would be easier if we defined the each state as a searchable and a follower grid.
+        /// Consider that next time, because this current method requires a lot of duplication of indices 
+        /// </summary>
         public static Action GoalReached;
         void OnMove(InputValue value)
         {
@@ -356,6 +372,7 @@ namespace OvenFresh
 
         }
 
+        //a helper that just lets us do the equivalent of an invoke
         private IEnumerator RunFunctionAfterDelay(Action action, float delayTime)
         {
             yield return new WaitForSeconds(delayTime);

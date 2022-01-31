@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using OvenFresh.Week1_GlobalGameJam.Scriptable_Objects;
-using UnityEditor.Build;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.VFX;
@@ -71,6 +70,21 @@ namespace OvenFresh
             return _allTiles;
         }
         
+        /// <summary>
+        /// This function creates the board relative to the center with the centering offset.
+        /// This space is relative to its parent, dual grid. So keep that in mind.
+        /// It goes through all the textures and creates a tile or index for the mover that we use for the dual grid
+        ///
+        /// Red = goal
+        /// Blue = mover
+        /// black = wall
+        /// white = open space
+        ///
+        /// White is just deactivated for now so we can see the baord.
+        /// </summary>
+        /// <param name="xDimension"></param>
+        /// <param name="yDimension"></param>
+        /// <returns></returns>
         Tile[,] CreateBoard(int xDimension, int yDimension)
         {
             var newTiles = new Tile[xDimension,yDimension];
