@@ -713,11 +713,16 @@ MonoBehaviour:
   levelList:
   - {fileID: 11400000, guid: e0665883f17e5594680680581071a41d, type: 2}
   - {fileID: 11400000, guid: 2ad2193321d83b84d9aceb1e2e34f11b, type: 2}
+  - {fileID: 11400000, guid: 689914384b325014ab7dedb56b58d853, type: 2}
   - {fileID: 11400000, guid: 1d59ecc7fdbffc54aa28a7f62b840bf0, type: 2}
   - {fileID: 11400000, guid: 8f2f66b6bada7c24aae43d6c89ff94ce, type: 2}
   - {fileID: 11400000, guid: 7940feea99c74a14e8297cd57ac90de2, type: 2}
   - {fileID: 11400000, guid: d14a1a7976308184bb78864c09fcfc84, type: 2}
+  - {fileID: 11400000, guid: 1477b35ea5ed1d84f98d25957e554989, type: 2}
+  - {fileID: 11400000, guid: d89ad8f0d1573ea4ea32964354a5621c, type: 2}
+  - {fileID: 11400000, guid: 03f7ef3aa6dc35d4e85b783fe8fc3ab5, type: 2}
   _textArea: {fileID: 1704262591}
+  _startingLevel: 0
 --- !u!1 &1704262589
 GameObject:
   m_ObjectHideFlags: 0
@@ -752,7 +757,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 95, y: -63.99997}
+  m_AnchoredPosition: {x: 95, y: 0.000030517578}
   m_SizeDelta: {x: 1367.176, y: 116.48401}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1704262591

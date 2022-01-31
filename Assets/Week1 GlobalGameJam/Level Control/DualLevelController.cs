@@ -15,7 +15,7 @@ namespace OvenFresh
         private int _level;
 
         [SerializeField] private TextMeshProUGUI _textArea;
-        
+        [SerializeField] private int _startingLevel = 0;
         private DualGrid _dualGrid;
         [SerializeField] 
         public int Level
@@ -30,7 +30,8 @@ namespace OvenFresh
 
         void Start()
         {
-            LoadLevel(0);
+            _level = _startingLevel;
+            LoadLevel(_level);
         }
         void LoadLevel(int index)
         {
