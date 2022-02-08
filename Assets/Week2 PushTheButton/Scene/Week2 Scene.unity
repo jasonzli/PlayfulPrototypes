@@ -719,6 +719,7 @@ MonoBehaviour:
   _followSpeed: 0.75
   _camHeight: 10
   shipToFollow: {fileID: 5876528485124368105}
+  velocity: {x: 0, y: 0, z: 0}
 --- !u!1 &2011167966
 GameObject:
   m_ObjectHideFlags: 0
@@ -1417,8 +1418,8 @@ MonoBehaviour:
   _heading: 0
   _rotationDirection: 0
   _direction: {x: 0, y: 1}
-  _speed: 3
-  rotationSpeed: 5
+  _speed: 7
+  rotationSpeed: 0.5
 --- !u!65 &8370077213424454274
 BoxCollider:
   m_ObjectHideFlags: 0

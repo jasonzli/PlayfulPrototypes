@@ -1,13 +1,11 @@
 ﻿using UnityEngine;
 
-namespace OvenFresh.Week2_PushTheButton.ScriptableObjects
+namespace OvenFresh
 {
-    [CreateAssetMenu(fileName = "New Starship Parameters", menuName = "Week2/Starship Parameters", order = 0)]
-    public class ShipParameters : ScriptableObject
+    [CreateAssetMenu(fileName = "New Starship States", menuName = "Week2/Starship States", order = 0)]
+    public class ShipStates : ScriptableObject
     {
-        public float turningSpeed = 1f;
-        public float maxSpeed = 10f;
-        public float maxBoost = 1f;
-        
+        public ShipStateParameters DriveState;
+        public ShipStateParameters ChargeState;
     }
 }

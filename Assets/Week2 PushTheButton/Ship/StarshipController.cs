@@ -7,12 +7,13 @@ namespace OvenFresh
 {
     public class StarshipController : MonoBehaviour
     {
+        public ShipStateParameters States; //this is wrong
 
-        public float _heading = 0f;
-        public float _rotationDirection = 0f;
-        public Vector2 _direction = new Vector2(0, 1);
-        public float _speed = 3f;
-        public float rotationSpeed = 5f;
+        private float _heading = 0f;
+        private float _rotationDirection = 0f;
+        private Vector2 _direction = new Vector2(0, 1);
+        private float _speed = 3f;
+        private float _rotationSpeed = 5f;
 
 
         void OnPivot(InputValue value)
@@ -47,7 +48,7 @@ namespace OvenFresh
 
         float UpdateHeading()
         {
-            _heading += _rotationDirection * rotationSpeed;
+            _heading += _rotationDirection * _rotationSpeed;
             _heading %= 360f;
             return _heading;
         }
