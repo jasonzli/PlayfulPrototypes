@@ -716,9 +716,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ff785c286af89949b29ca89e5862186, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _followSpeed: 0.9
+  _followSpeed: 0.75
   _camHeight: 10
-  shipToFollow: {fileID: 6369046223817784074}
+  shipToFollow: {fileID: 5876528485124368105}
 --- !u!1 &2011167966
 GameObject:
   m_ObjectHideFlags: 0

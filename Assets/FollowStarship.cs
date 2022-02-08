@@ -10,6 +10,7 @@ namespace OvenFresh
         [Range(.1f,1f)]public float _followSpeed = .9f;
         [Range(0f, 20f)] public float _camHeight = 10f;
         public Transform shipToFollow;
+        public Vector3 velocity;
         private void Update()
         {
             MoveToShip();
@@ -17,7 +18,7 @@ namespace OvenFresh
 
         void MoveToShip()
         {
-            var newPosition = Vector3.Lerp(transform.position, shipToFollow.position, _followSpeed);
+            var newPosition = Vector3.SmoothDamp(transform.position, shipToFollow.position, ref velocity,-1f);
             newPosition.y = _camHeight;
             transform.position = newPosition;
         }
