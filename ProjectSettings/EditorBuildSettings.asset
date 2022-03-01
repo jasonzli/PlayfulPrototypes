@@ -8,8 +8,11 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Week 1 GlobalGameJam/Scenes/GlobalGameJam.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
-  - enabled: 1
+  - enabled: 0
     path: Assets/Week 2 PushTheButton/Scene/Week2 Scene.unity
     guid: 9d488f6519215bb4a83521fd3b5a8648
+  - enabled: 1
+    path: Assets/Week 5 Reading is Fun/Text Driving.unity
+    guid: cef2778635911174abb3c67a559e3945
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 7cd0344a296ae8a4591414aaa3d53567, type: 2}

@@ -20,12 +20,28 @@ namespace OvenFresh
         void Start()
         {
             _AllTrees = new List<GameObject>();
-            for (var i = 0; i < 10; i++)
-            {
-                _AllTrees.Add(NewTree(transform.position + Vector3.right * i, Quaternion.identity, transform));
-            }
+            StartCoroutine(RandomlyGenerateTrees());
+        }
 
-            StartCoroutine(DestroyAllTreesIn(3));
+        IEnumerator RandomlyGenerateTrees()
+        {
+            var flip = 1f;
+            //magic number is 8 across for the road
+            while (true)
+            {
+
+                if (Random.Range(0f, 1f) < .5f)
+                {
+                    flip = 1f;
+                }
+                else
+                {
+                    flip = 0f;
+                }
+                _AllTrees.Add(NewTree(transform.position + Vector3.right * 8 * flip+ Vector3.up * 1.3f, Quaternion.identity, transform));
+                
+                yield return new WaitForSeconds(Random.Range(.5f, 3f));
+            }
         }
 
         IEnumerator DestroyAllTreesIn(float destroyInSeconds)
@@ -50,7 +66,7 @@ namespace OvenFresh
         {
             for (var i = 0; i < numberOfTrees; i++)
             {
-                _AllTrees.Add(NewTree(transform.position + Vector3.right * i, Quaternion.identity, transform));
+                _AllTrees.Add(NewTree(transform.position + Vector3.right * i , Quaternion.identity, transform));
             }
             StartCoroutine(DestroyAllTreesIn(3));
             yield return null;
@@ -83,7 +99,7 @@ namespace OvenFresh
             newTree.transform.position = position;
             newTree.transform.localRotation = orientation;
             newTree.transform.parent = parent;
-            
+
             return newTree;
         }
     }
