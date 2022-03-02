@@ -21,7 +21,7 @@ Material:
     m_TexEnvs:
     - _MainTex:
         m_Texture: {fileID: 2800000, guid: ffb1fc2861559f149acc9c010e7973e9, type: 3}
-        m_Scale: {x: 150, y: 2}
+        m_Scale: {x: 180, y: 2}
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _ScrollSpeed: 1.5
