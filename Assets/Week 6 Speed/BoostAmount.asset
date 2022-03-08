@@ -10,6 +10,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 85b48c93c8e51f84d8541adcdf984c73, type: 3}
-  m_Name: WorldSpeed
+  m_Name: BoostAmount
   m_EditorClassIdentifier: 
-  value: 80.19
+  value: 1.14

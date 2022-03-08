@@ -14,6 +14,7 @@ namespace OvenFresh
         // Start is called before the first frame update
         void Start()
         {
+            
             StartCoroutine(GenerateObstacle(GenerationInterval.value));
         }
 
@@ -33,6 +34,7 @@ namespace OvenFresh
         {
             int index = Random.Range(0, objectsList.Count);
             GameObject obstacle = Instantiate(objectsList[index],transform);
+            obstacle.transform.localPosition = new Vector3(Random.Range(-3f, 3f), Random.Range(-2f, 2f), 0f);
             obstacle.GetComponent<FlyingObject>().Init(WorldSpeed);
             return obstacle;
         }
